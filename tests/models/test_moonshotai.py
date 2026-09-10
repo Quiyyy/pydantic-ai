@@ -294,13 +294,13 @@ async def test_disabling_and_reenabling_tools_preserves_request_prefix(
             history = result.all_messages()
         history = ModelMessagesTypeAdapter.validate_json(ModelMessagesTypeAdapter.dump_json(history))
 
-    first, revealed, called, disabled, reenabled, final = moonshot_api.requests
+    first, revealed, called, disabled, enabled_again, final = moonshot_api.requests
     assert [body['tool_choice'] for body in moonshot_api.requests] == ['auto', 'auto', 'auto', 'none', 'auto', 'auto']
     assert [message for message in first['messages'] if 'tools' in message] == []
     additions = [message for message in revealed['messages'] if 'tools' in message]
     assert len(additions) == 1
     assert [tool['function']['name'] for tool in additions[0]['tools']] == ['weather']
-    for body in (called, disabled, reenabled, final):
+    for body in (called, disabled, enabled_again, final):
         assert [message for message in body['messages'] if 'tools' in message] == additions
     for before, after in zip(moonshot_api.requests, moonshot_api.requests[1:]):
         assert after['tools'] == before['tools']

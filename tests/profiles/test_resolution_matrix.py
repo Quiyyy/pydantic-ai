@@ -1949,6 +1949,7 @@ def test_moonshotai_kimi():
             'openai_chat_thinking_field': 'reasoning_content',
             'openai_chat_send_back_thinking_parts': 'field',
             'openai_supports_tool_choice_required': False,
+            'tool_addition_mode': None,
         }
     )
 
